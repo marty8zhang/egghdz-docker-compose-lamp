@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+    php-apache:
+        build:
+            context: ./php-apache
+        ports:
+            - 80:80
+        volumes:
+            - ./www_root:/var/www/html
+        links:
+            - 'mariadb' # `service-name:alias`. Any services in `links` will be treated as dependees and be started before `php-apache`.
+    
+    mariadb:
+        image: mariadb:10.4
+        volumes:
+            - mariadb:/var/lib/mysql
+        environment:
+            TZ: "UTC"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+            MYSQL_USER: 'egghdz_user'
+            MYSQL_PASSWORD: 'egghdzpassword'
+            MYSQL_DATABASE: 'Egghdz_Database'
+
+volumes:
+    mariadb:
