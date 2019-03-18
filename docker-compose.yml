@@ -10,17 +10,29 @@ services:
             - ./www_root:/var/www/html
         links:
             - 'mariadb' # `service-name:alias`. Any services in `links` will be treated as dependees and be started before `php-apache`.
-    
+
     mariadb:
-        image: mariadb:10.4
+        image: mariadb:latest
         volumes:
             - mariadb:/var/lib/mysql
         environment:
             TZ: "UTC"
             MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+            MYSQL_DATABASE: 'Egghdz_Database'
             MYSQL_USER: 'egghdz_user'
             MYSQL_PASSWORD: 'egghdzpassword'
-            MYSQL_DATABASE: 'Egghdz_Database'
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        environment:
+            PMA_HOST: 'mariadb'
+            PMA_USER: 'egghdz_user'
+            PMA_PASSWORD: 'egghdzpassword'
+        restart: always
+        ports:
+            - 81:80
+        volumes:
+            - /sessions
 
 volumes:
     mariadb:
