@@ -2,14 +2,14 @@ version: '3.7'
 
 services:
     php-apache:
-        build:
-            context: ./php-apache
+        image: egghdz/docker-php-apache:latest
         ports:
             - 80:80
         volumes:
             - ./www_root:/var/www/html
+            - ../xyz_college:/opt/xyz-college
         links:
-            - 'mariadb' # `service-name:alias`. Any services in `links` will be treated as dependees and be started before `php-apache`.
+            - 'mariadb'
 
     mariadb:
         image: mariadb:latest
@@ -33,6 +33,8 @@ services:
             - 81:80
         volumes:
             - /sessions
+        links:
+            - 'mariadb'
 
 volumes:
     mariadb:
