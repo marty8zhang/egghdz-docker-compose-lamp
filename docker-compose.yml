@@ -7,7 +7,6 @@ services:
             - 80:80
         volumes:
             - ./www_root:/var/www/html
-            - ../xyz_college:/opt/xyz-college
         links:
             - 'mariadb'
 
