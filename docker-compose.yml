@@ -7,8 +7,8 @@ services:
             - 80:80
         volumes:
             - ./www_root:/var/www/html
-        links:
-            - 'mariadb'
+        depends_on:
+            - mariadb
 
     mariadb:
         image: mariadb:latest
@@ -32,8 +32,9 @@ services:
             - 81:80
         volumes:
             - /sessions
-        links:
-            - 'mariadb'
+        depends_on:
+            - mariadb
+            - php-apache
 
 volumes:
     mariadb:
