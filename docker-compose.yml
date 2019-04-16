@@ -34,7 +34,6 @@ services:
             - /sessions
         depends_on:
             - mariadb
-            - php-apache
 
 volumes:
     mariadb:
