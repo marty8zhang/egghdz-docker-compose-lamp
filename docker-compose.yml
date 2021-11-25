@@ -1,14 +1,15 @@
-version: '3.7'
+version: "3.9"
 
 services:
     php-apache:
         image: egghdz/docker-php-apache:latest
         ports:
-            - 80:80
+            - "80:80"
         volumes:
             - ./www_root:/var/www/html
         depends_on:
             - mariadb
+        restart: always
 
     mariadb:
         image: mariadb:latest
@@ -17,23 +18,24 @@ services:
         environment:
             TZ: "UTC"
             MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-            MYSQL_DATABASE: 'Egghdz_Database'
-            MYSQL_USER: 'egghdz_user'
-            MYSQL_PASSWORD: 'egghdzpassword'
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        restart: always
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin:latest
         environment:
-            PMA_HOST: 'mariadb'
-            PMA_USER: 'egghdz_user'
-            PMA_PASSWORD: 'egghdzpassword'
-        restart: always
+            PMA_HOST: "mariadb"
+            PMA_USER: ${MYSQL_USER}
+            PMA_PASSWORD: ${MYSQL_PASSWORD}
         ports:
-            - 81:80
+            - "81:80"
         volumes:
             - /sessions
         depends_on:
             - mariadb
+        restart: always
 
 volumes:
     mariadb:
